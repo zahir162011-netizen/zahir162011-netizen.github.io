@@ -2,66 +2,68 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>RedesBox Store</title>
+<title>Minelite Network - Tienda Oficial</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial, sans-serif;
-background:#0f172a;
+background:#0b0f1a;
 color:white;
 }
 
 header{
-background:#1e293b;
+background:#111827;
 padding:20px;
 text-align:center;
 font-size:28px;
 font-weight:bold;
-color:#f59e0b;
+color:#f97316;
+letter-spacing:1px;
 }
 
 nav{
 display:flex;
 justify-content:center;
 flex-wrap:wrap;
-gap:15px;
-background:#111827;
+gap:12px;
+background:#0f172a;
 padding:15px;
 }
 
 nav button{
-background:#1e293b;
+background:#1f2937;
 border:none;
-padding:10px 20px;
+padding:10px 18px;
 color:white;
 cursor:pointer;
-border-radius:6px;
+border-radius:8px;
 transition:0.3s;
 }
 
 nav button:hover{
-background:#f97316;
+background:#dc2626;
 }
 
 .container{
 padding:30px;
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
 gap:20px;
 }
 
 .card{
-background:#1e293b;
+background:#1f2937;
 padding:20px;
 border-radius:12px;
 text-align:center;
-box-shadow:0 0 15px rgba(0,0,0,0.4);
 transition:0.3s;
+border:1px solid #1e293b;
 }
 
 .card:hover{
-transform:scale(1.05);
+transform:scale(1.04);
+border-color:#f97316;
 }
 
 .price{
@@ -84,7 +86,7 @@ cursor:pointer;
 position:fixed;
 bottom:20px;
 right:20px;
-background:#f97316;
+background:#dc2626;
 padding:15px;
 border-radius:50%;
 cursor:pointer;
@@ -95,9 +97,9 @@ font-size:20px;
 position:fixed;
 top:0;
 right:-400px;
-width:350px;
+width:360px;
 height:100%;
-background:#1e293b;
+background:#111827;
 padding:20px;
 transition:0.4s;
 overflow-y:auto;
@@ -120,35 +122,45 @@ border:none;
 padding:8px 12px;
 color:white;
 cursor:pointer;
-border-radius:5px;
+border-radius:6px;
 }
 
 .payment{
 margin-top:20px;
 padding-top:15px;
-border-top:1px solid #334155;
+border-top:1px solid #374151;
 }
 
 .payment a{
 display:block;
 margin:10px 0;
-color:#f59e0b;
+color:#f97316;
 text-decoration:none;
 font-weight:bold;
+}
+
+footer{
+text-align:center;
+padding:30px;
+background:#0f172a;
+color:#9ca3af;
+font-size:14px;
+margin-top:30px;
 }
 </style>
 </head>
 
 <body>
 
-<header>🔥 RedesBox Store</header>
+<header>🔥 Minelite Network - Tienda Oficial</header>
 
 <nav>
 <button onclick="loadCategory('global')">Global</button>
-<button onclick="loadCategory('redesbox')">RedesBox</button>
+<button onclick="loadCategory('redesbox_rangos')">RedesBox Rangos</button>
+<button onclick="loadCategory('gkits')">RedesBox GKits</button>
 <button onclick="loadCategory('keys')">Keys</button>
 <button onclick="loadCategory('extras')">Extras</button>
-<button onclick="loadCategory('items')">Items</button>
+<button onclick="loadCategory('items')">Items Especiales</button>
 </nav>
 
 <div class="container" id="products"></div>
@@ -173,46 +185,58 @@ font-weight:bold;
 const products = {
 
 global:[
-["VIP",1.00],
-["VIP+",1.50],
-["Cloud",2.00],
-["Star",2.50],
-["Cosmo",4.00],
-["Galaxy",5.00],
-["Lite",7.00],
-["Lite+",9.00],
-["Minelite",10.50]
+["VIP",1.19],
+["VIP+",1.69],
+["Cloud",2.19],
+["Star",2.69],
+["Cosmo",4.29],
+["Galaxy",5.29],
+["Lite",7.29],
+["Lite+",9.29],
+["Minelite",10.29]
 ],
 
-redesbox:[
-// MÁS BARATOS que Global
-["RB VIP",0.89],
-["RB VIP+",1.29],
+redesbox_rangos:[
+["RB VIP",0.99],
+["RB VIP+",1.39],
 ["RB Cloud",1.79],
 ["RB Star",2.19],
-["RB Cosmo",3.59],
+["RB Cosmo",3.49],
 ["RB Galaxy",4.49],
 ["RB Lite",6.49],
 ["RB Lite+",8.49],
-["RB Minelite",9.99]
+["RB Minelite",9.49]
+],
+
+gkits:[
+["Kit Spotify",2.49],
+["Kit Discord",3.99],
+["Kit Google",5.99]
 ],
 
 keys:[
-["Key Básica",1.00],
-["Key Premium",2.00],
-["Key Legendaria",3.50]
+["Key Común x1",0.29],["Key Común x3",0.79],["Key Común x5",1.29],
+["Key Especial x1",0.49],["Key Especial x3",1.29],["Key Especial x5",2.19],
+["Key Rara x1",0.69],["Key Rara x3",1.89],["Key Rara x5",3.29],
+["Key Épica x1",0.99],["Key Épica x3",2.79],["Key Épica x5",4.49],
+["Key Mítica x1",1.49],["Key Mítica x3",3.99],["Key Mítica x5",6.99],
+["Key Legendaria x1",1.99],["Key Legendaria x3",5.49],["Key Legendaria x5",8.99],
+["Key Kits x1",2.49],["Key Kits x3",6.99],["Key Kits x5",11.99],
+["Key Rangos x1",3.99],["Key Rangos x3",10.99],["Key Rangos x5",17.99],
+["Key Minelite x1",3.49],["Key Minelite x3",9.49],["Key Minelite x5",15.99],
+["Key 50/50 x1",3.99],["Key 50/50 x3",12.99],["Key 50/50 x5",20.99]
 ],
 
 extras:[
-["Fly Permanente",3.00],
-["Nickname Color",1.50],
-["Cambio de Nick",2.00]
+["Unban",7.99],
+["Unmute",4.99],
+["Unblacklist",9.99],
+["Revive",1.99]
 ],
 
 items:[
-["Espada OP",2.50],
-["Armadura Full Prot",4.00],
-["Kit PvP",3.00]
+["Pico 3x3",4.99],
+["Espada Redes",6.99]
 ]
 
 };
@@ -267,6 +291,11 @@ document.getElementById("cart").classList.toggle("open");
 
 loadCategory("global");
 </script>
+
+<footer>
+Precios especiales de lanzamiento. En el futuro podrán subir conforme el servidor crezca.<br><br>
+Gracias por apoyar Minelite Network desde el inicio ❤️
+</footer>
 
 </body>
 </html>
