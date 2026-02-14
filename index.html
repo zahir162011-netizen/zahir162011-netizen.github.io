@@ -1,52 +1,231 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>Minelite Network</title>
-  <style>
-    body {
-      margin: 0;
-      background: linear-gradient(135deg, #111, #1a1a1a);
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minelite Network - Tienda Oficial</title>
 
-    .container {
-      padding: 100px 20px;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: white;
+}
 
-    h1 {
-      font-size: 50px;
-      color: orange;
-    }
+header {
+    background: linear-gradient(90deg,#b31217,#ff5f00);
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
 
-    p {
-      font-size: 20px;
-      color: #ccc;
-    }
+nav {
+    display: flex;
+    justify-content: center;
+    background: #1a1a1a;
+    padding: 10px;
+    flex-wrap: wrap;
+}
 
-    .btn {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 15px 30px;
-      background: orange;
-      color: black;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
+nav button {
+    background: #222;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.3s;
+}
 
-    .btn:hover {
-      background: yellow;
-    }
-  </style>
+nav button:hover {
+    background: #ff5f00;
+}
+
+.container {
+    padding: 20px;
+}
+
+.product {
+    background: #1c1c1c;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    display: inline-block;
+    width: 220px;
+    text-align: center;
+    box-shadow: 0 0 10px #000;
+}
+
+.product button {
+    margin-top: 10px;
+    background: #ff5f00;
+    border: none;
+    padding: 8px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.cart {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background: #141414;
+    width: 300px;
+    height: 100%;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: -5px 0 15px black;
+}
+
+.cart h2 {
+    text-align: center;
+}
+
+.checkout button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.discord { background: #5865F2; color: white; }
+.whatsapp { background: #25D366; color: white; }
+.paypal { background: #0070ba; color: white; }
+
+footer {
+    margin-top: 50px;
+    padding: 20px;
+    text-align: center;
+    background: #1a1a1a;
+    font-size: 14px;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>🔥 Zahir Network 🔥</h1>
-    <p>Bienvenido a la tienda oficial del servidor</p>
-    <a class="btn" href="https://discord.gg/TUINVITE">Entrar al Discord</a>
-  </div>
+
+<header>
+MINELITE NETWORK - TIENDA OFICIAL
+</header>
+
+<nav>
+<button onclick="showCategory('global')">Global</button>
+<button onclick="showCategory('redesbox')">RedesBox</button>
+<button onclick="showCategory('keys')">Keys</button>
+<button onclick="showCategory('extras')">Extras</button>
+<button onclick="showCategory('items')">Items Especiales</button>
+</nav>
+
+<div class="container" id="products"></div>
+
+<div class="cart">
+<h2>Carrito</h2>
+<ul id="cartList"></ul>
+<p><strong>Total: $<span id="total">0</span></strong></p>
+
+<div class="checkout">
+<button class="discord" onclick="checkoutDiscord()">Comprar por Discord</button>
+<button class="whatsapp" onclick="checkoutWhatsApp()">Comprar por WhatsApp</button>
+<button class="paypal" onclick="checkoutPayPal()">Pagar con PayPal</button>
+</div>
+</div>
+
+<footer>
+Precios especiales de lanzamiento. <br>
+Gracias por apoyar Minelite Network desde el inicio.
+</footer>
+
+<script>
+
+const categories = {
+global: [
+["VIP",1.19],["VIP+",1.69],["Cloud",2.29],["Star",2.89],
+["Cosmo",4.49],["Galaxy",5.49],["Lite",7.49],
+["Lite+",9.49],["Minelite",10.99]
+],
+
+redesbox: [
+["RB VIP",0.89],["RB VIP+",1.29],["RB Star",1.99],["RB Galaxy",3.49],
+["Kit Spotify",2.79],["Kit Discord",4.29],["Kit Google",6.49]
+],
+
+keys: [
+["Key Común x1",0.39],["Key Común x3",0.99],["Key Común x5",1.69],
+["Key Legendaria x1",2.19],["Key Rangos x1",4.29],
+["Key Minelite x1",3.79],["Key 50/50 x1",4.49]
+],
+
+extras: [
+["Unban",6.99],["Unmute",3.49],
+["Unblacklist",9.99],["Revive",1.99]
+],
+
+items: [
+["Pico 3x3",4.99],["Espada Redes",5.99]
+]
+};
+
+let cart = [];
+
+function showCategory(cat){
+    const container = document.getElementById("products");
+    container.innerHTML="";
+    categories[cat].forEach(item=>{
+        container.innerHTML+=`
+        <div class="product">
+        <h3>${item[0]}</h3>
+        <p>$${item[1]}</p>
+        <button onclick="addToCart('${item[0]}',${item[1]})">Agregar</button>
+        </div>`;
+    });
+}
+
+function addToCart(name,price){
+    cart.push({name,price});
+    updateCart();
+}
+
+function updateCart(){
+    const list = document.getElementById("cartList");
+    list.innerHTML="";
+    let total=0;
+    cart.forEach(item=>{
+        total+=item.price;
+        list.innerHTML+=`<li>${item.name} - $${item.price}</li>`;
+    });
+    document.getElementById("total").innerText=total.toFixed(2);
+}
+
+function getOrderText(){
+    let text="Pedido Minelite Network:%0A";
+    cart.forEach(item=>{
+        text+=`${item.name} - $${item.price}%0A`;
+    });
+    text+=`Total: $${document.getElementById("total").innerText}`;
+    return text;
+}
+
+function checkoutDiscord(){
+    window.open("https://discord.gg/wVC39BGcmq","_blank");
+}
+
+function checkoutWhatsApp(){
+    window.open("https://wa.me/51986609862?text="+getOrderText());
+}
+
+function checkoutPayPal(){
+    window.open("https://www.paypal.com/paypalme/steve91999");
+}
+
+showCategory('global');
+
+</script>
+
 </body>
 </html>
