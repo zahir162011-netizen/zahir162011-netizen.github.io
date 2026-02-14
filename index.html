@@ -2,249 +2,243 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minelite Network - Tienda Oficial</title>
+<title>RedesBox Store</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #121212;
-    color: #eee;
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#111827;
+color:white;
 }
 
-header {
-    background: linear-gradient(90deg,#7a0f0f,#c43d00);
-    padding: 20px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 1px;
+header{
+background:#1f2937;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+color:#60a5fa;
 }
 
-nav {
-    background: #1a1a1a;
-    padding: 10px;
-    text-align: center;
+nav{
+display:flex;
+justify-content:center;
+gap:20px;
+background:#111827;
+padding:15px;
 }
 
-nav button {
-    background: #2a2a2a;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: 0.3s;
+nav button{
+background:#1f2937;
+border:none;
+padding:10px 20px;
+color:white;
+cursor:pointer;
+border-radius:6px;
+transition:0.3s;
 }
 
-nav button:hover {
-    background: #c43d00;
+nav button:hover{
+background:#2563eb;
 }
 
-.container {
-    padding: 20px;
-    text-align: center;
+.container{
+padding:30px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:20px;
 }
 
-.product {
-    background: #1f1f1f;
-    padding: 15px;
-    margin: 10px;
-    border-radius: 8px;
-    display: inline-block;
-    width: 220px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.6);
-    transition: 0.3s;
+.card{
+background:#1f2937;
+padding:20px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,0.4);
+transition:0.3s;
 }
 
-.product:hover {
-    transform: translateY(-5px);
+.card:hover{
+transform:scale(1.05);
 }
 
-.product h3 {
-    margin: 5px 0;
+.price{
+color:#34d399;
+font-weight:bold;
+margin:10px 0;
 }
 
-.product button {
-    margin-top: 10px;
-    background: #c43d00;
-    border: none;
-    padding: 8px;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
+.card button{
+background:#2563eb;
+border:none;
+padding:8px 15px;
+border-radius:6px;
+color:white;
+cursor:pointer;
 }
 
-.cartButton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #c43d00;
-    padding: 15px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
+#cartBtn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#2563eb;
+padding:15px;
+border-radius:50%;
+cursor:pointer;
+font-size:20px;
 }
 
-.cartPanel {
-    display: none;
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    background: #1c1c1c;
-    padding: 15px;
-    width: 280px;
-    border-radius: 10px;
+#cart{
+position:fixed;
+top:0;
+right:-400px;
+width:350px;
+height:100%;
+background:#1f2937;
+padding:20px;
+transition:0.4s;
+overflow-y:auto;
+box-shadow:-5px 0 15px rgba(0,0,0,0.5);
 }
 
-.cartPanel h3 {
-    text-align: center;
+#cart.open{
+right:0;
 }
 
-.checkout button {
-    width: 100%;
-    margin-top: 8px;
-    padding: 8px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+.cart-item{
+margin-bottom:10px;
+display:flex;
+justify-content:space-between;
 }
 
-.discord { background: #5865F2; color: white; }
-.whatsapp { background: #25D366; color: white; }
+.closeBtn{
+background:red;
+border:none;
+padding:5px 10px;
+color:white;
+cursor:pointer;
+border-radius:5px;
+}
 
-footer {
-    margin-top: 50px;
-    padding: 20px;
-    text-align: center;
-    background: #1a1a1a;
-    font-size: 14px;
+.payment{
+margin-top:20px;
+padding-top:15px;
+border-top:1px solid #374151;
+}
+
+.payment a{
+display:block;
+margin:10px 0;
+color:#60a5fa;
+text-decoration:none;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-MINELITE NETWORK - TIENDA OFICIAL
-</header>
+<header>RedesBox Store</header>
 
 <nav>
-<button onclick="showCategory('global')">Global</button>
-<button onclick="showCategory('redesbox')">RedesBox</button>
-<button onclick="showCategory('keys')">Keys</button>
-<button onclick="showCategory('extras')">Extras</button>
-<button onclick="showCategory('items')">Items Especiales</button>
+<button onclick="loadCategory('global')">Global - Rangos</button>
+<button onclick="loadCategory('redesbox')">RedesBox - Rangos</button>
 </nav>
 
 <div class="container" id="products"></div>
 
-<div class="cartButton" onclick="toggleCart()">🛒</div>
+<div id="cartBtn" onclick="toggleCart()">🛒</div>
 
-<div class="cartPanel" id="cartPanel">
-<h3>Carrito</h3>
-<ul id="cartList"></ul>
-<p><strong>Total: $<span id="total">0</span></strong></p>
+<div id="cart">
+<h2>Carrito</h2>
+<div id="cartItems"></div>
+<h3>Total: $<span id="total">0</span></h3>
 
-<div class="checkout">
-<button class="discord" onclick="checkoutDiscord()">Discord</button>
-<button class="whatsapp" onclick="checkoutWhatsApp()">WhatsApp</button>
+<div class="payment">
+<h3>Métodos de Pago</h3>
+<a href="https://wa.me/51986609862" target="_blank">WhatsApp</a>
+<a href="https://discord.gg/wVC39BGcmq" target="_blank">Discord</a>
 </div>
-</div>
 
-<footer>
-Precios especiales de lanzamiento.<br>
-Gracias por apoyar Minelite Network.
-</footer>
+<button class="closeBtn" onclick="toggleCart()">Cerrar</button>
+</div>
 
 <script>
-
-const categories = {
-
-global: [
-["VIP",1.19],["VIP+",1.69],["Cloud",2.29],["Star",2.89],
-["Cosmo",4.49],["Galaxy",5.49],["Lite",7.49],
-["Lite+",9.49],["Minelite",10.99]
+const products = {
+global:[
+["VIP",1.00],
+["VIP+",1.50],
+["Cloud",2.00],
+["Star",2.50],
+["Cosmo",4.00],
+["Galaxy",5.00],
+["Lite",7.00],
+["Lite+",9.00],
+["Minelite",10.50]
 ],
 
-redesbox: [
-["RB VIP",1.09],["RB VIP+",1.59],["RB Star",2.49],
-["RB Galaxy",4.99],
-["Kit Spotify",2.99],["Kit Discord",4.49],["Kit Google",6.99]
-],
-
-keys: [
-["Key Común x1",0.39],["Key Común x3",0.99],
-["Key Épica x1",1.19],["Key Legendaria x1",2.19]
-],
-
-extras: [
-["Unban",6.99],["Unmute",3.49],
-["Unblacklist",9.99],["Revive",1.99]
-],
-
-items: [
-["Pico 3x3",4.99],["Espada Redes",5.99]
+redesbox:[
+["RB VIP",1.09],
+["RB VIP+",1.59],
+["RB Cloud",2.19],
+["RB Star",2.79],
+["RB Cosmo",4.29],
+["RB Galaxy",5.29],
+["RB Lite",7.19],
+["RB Lite+",9.19],
+["RB Minelite",10.79]
 ]
 };
 
-let cart = [];
+let cart=[];
 
-function showCategory(cat){
-    const container = document.getElementById("products");
-    container.innerHTML="";
-    categories[cat].forEach(item=>{
-        container.innerHTML+=`
-        <div class="product">
-        <h3>${item[0]}</h3>
-        <p>$${item[1]}</p>
-        <button onclick="addToCart('${item[0]}',${item[1]})">Agregar</button>
-        </div>`;
-    });
+function loadCategory(category){
+const container=document.getElementById("products");
+container.innerHTML="";
+products[category].forEach(item=>{
+container.innerHTML+=`
+<div class="card">
+<h3>${item[0]}</h3>
+<div class="price">$${item[1]}</div>
+<button onclick="addToCart('${item[0]}',${item[1]})">Añadir</button>
+</div>
+`;
+});
 }
 
 function addToCart(name,price){
-    cart.push({name,price});
-    updateCart();
+cart.push({name,price});
+updateCart();
 }
 
 function updateCart(){
-    const list = document.getElementById("cartList");
-    list.innerHTML="";
-    let total=0;
-    cart.forEach(item=>{
-        total+=item.price;
-        list.innerHTML+=`<li>${item.name} - $${item.price}</li>`;
-    });
-    document.getElementById("total").innerText=total.toFixed(2);
+const cartItems=document.getElementById("cartItems");
+cartItems.innerHTML="";
+let total=0;
+
+cart.forEach((item,index)=>{
+total+=item.price;
+cartItems.innerHTML+=`
+<div class="cart-item">
+${item.name} - $${item.price}
+<button onclick="removeItem(${index})">X</button>
+</div>
+`;
+});
+
+document.getElementById("total").innerText=total.toFixed(2);
+}
+
+function removeItem(index){
+cart.splice(index,1);
+updateCart();
 }
 
 function toggleCart(){
-    const panel = document.getElementById("cartPanel");
-    panel.style.display = panel.style.display === "block" ? "none" : "block";
+document.getElementById("cart").classList.toggle("open");
 }
 
-function getOrderText(){
-    let text="Pedido Minelite:%0A";
-    cart.forEach(item=>{
-        text+=`${item.name} - $${item.price}%0A`;
-    });
-    text+=`Total: $${document.getElementById("total").innerText}`;
-    return text;
-}
-
-function checkoutDiscord(){
-    window.open("https://discord.gg/wVC39BGcmq","_blank");
-}
-
-function checkoutWhatsApp(){
-    window.open("https://wa.me/51986609862?text="+getOrderText());
-}
-
-showCategory('global');
-
+loadCategory("global");
 </script>
 
 </body>
