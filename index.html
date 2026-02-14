@@ -8,29 +8,30 @@
 body{
 margin:0;
 font-family:Arial, sans-serif;
-background:#111827;
+background:#0f172a;
 color:white;
 }
 
 header{
-background:#1f2937;
+background:#1e293b;
 padding:20px;
 text-align:center;
 font-size:28px;
 font-weight:bold;
-color:#60a5fa;
+color:#f59e0b;
 }
 
 nav{
 display:flex;
 justify-content:center;
-gap:20px;
+flex-wrap:wrap;
+gap:15px;
 background:#111827;
 padding:15px;
 }
 
 nav button{
-background:#1f2937;
+background:#1e293b;
 border:none;
 padding:10px 20px;
 color:white;
@@ -40,7 +41,7 @@ transition:0.3s;
 }
 
 nav button:hover{
-background:#2563eb;
+background:#f97316;
 }
 
 .container{
@@ -51,11 +52,11 @@ gap:20px;
 }
 
 .card{
-background:#1f2937;
+background:#1e293b;
 padding:20px;
-border-radius:10px;
+border-radius:12px;
 text-align:center;
-box-shadow:0 0 10px rgba(0,0,0,0.4);
+box-shadow:0 0 15px rgba(0,0,0,0.4);
 transition:0.3s;
 }
 
@@ -64,13 +65,14 @@ transform:scale(1.05);
 }
 
 .price{
-color:#34d399;
+color:#facc15;
 font-weight:bold;
 margin:10px 0;
+font-size:18px;
 }
 
 .card button{
-background:#2563eb;
+background:#f97316;
 border:none;
 padding:8px 15px;
 border-radius:6px;
@@ -82,7 +84,7 @@ cursor:pointer;
 position:fixed;
 bottom:20px;
 right:20px;
-background:#2563eb;
+background:#f97316;
 padding:15px;
 border-radius:50%;
 cursor:pointer;
@@ -95,11 +97,11 @@ top:0;
 right:-400px;
 width:350px;
 height:100%;
-background:#1f2937;
+background:#1e293b;
 padding:20px;
 transition:0.4s;
 overflow-y:auto;
-box-shadow:-5px 0 15px rgba(0,0,0,0.5);
+box-shadow:-5px 0 15px rgba(0,0,0,0.6);
 }
 
 #cart.open{
@@ -113,9 +115,9 @@ justify-content:space-between;
 }
 
 .closeBtn{
-background:red;
+background:#dc2626;
 border:none;
-padding:5px 10px;
+padding:8px 12px;
 color:white;
 cursor:pointer;
 border-radius:5px;
@@ -124,25 +126,29 @@ border-radius:5px;
 .payment{
 margin-top:20px;
 padding-top:15px;
-border-top:1px solid #374151;
+border-top:1px solid #334155;
 }
 
 .payment a{
 display:block;
 margin:10px 0;
-color:#60a5fa;
+color:#f59e0b;
 text-decoration:none;
+font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<header>RedesBox Store</header>
+<header>🔥 RedesBox Store</header>
 
 <nav>
-<button onclick="loadCategory('global')">Global - Rangos</button>
-<button onclick="loadCategory('redesbox')">RedesBox - Rangos</button>
+<button onclick="loadCategory('global')">Global</button>
+<button onclick="loadCategory('redesbox')">RedesBox</button>
+<button onclick="loadCategory('keys')">Keys</button>
+<button onclick="loadCategory('extras')">Extras</button>
+<button onclick="loadCategory('items')">Items</button>
 </nav>
 
 <div class="container" id="products"></div>
@@ -165,6 +171,7 @@ text-decoration:none;
 
 <script>
 const products = {
+
 global:[
 ["VIP",1.00],
 ["VIP+",1.50],
@@ -178,16 +185,36 @@ global:[
 ],
 
 redesbox:[
-["RB VIP",1.09],
-["RB VIP+",1.59],
-["RB Cloud",2.19],
-["RB Star",2.79],
-["RB Cosmo",4.29],
-["RB Galaxy",5.29],
-["RB Lite",7.19],
-["RB Lite+",9.19],
-["RB Minelite",10.79]
+// MÁS BARATOS que Global
+["RB VIP",0.89],
+["RB VIP+",1.29],
+["RB Cloud",1.79],
+["RB Star",2.19],
+["RB Cosmo",3.59],
+["RB Galaxy",4.49],
+["RB Lite",6.49],
+["RB Lite+",8.49],
+["RB Minelite",9.99]
+],
+
+keys:[
+["Key Básica",1.00],
+["Key Premium",2.00],
+["Key Legendaria",3.50]
+],
+
+extras:[
+["Fly Permanente",3.00],
+["Nickname Color",1.50],
+["Cambio de Nick",2.00]
+],
+
+items:[
+["Espada OP",2.50],
+["Armadura Full Prot",4.00],
+["Kit PvP",3.00]
 ]
+
 };
 
 let cart=[];
