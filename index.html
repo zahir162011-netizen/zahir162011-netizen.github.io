@@ -9,29 +9,28 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #0f0f0f;
-    color: white;
+    background: #121212;
+    color: #eee;
 }
 
 header {
-    background: linear-gradient(90deg,#b31217,#ff5f00);
+    background: linear-gradient(90deg,#7a0f0f,#c43d00);
     padding: 20px;
     text-align: center;
     font-size: 28px;
     font-weight: bold;
+    letter-spacing: 1px;
 }
 
 nav {
-    display: flex;
-    justify-content: center;
     background: #1a1a1a;
     padding: 10px;
-    flex-wrap: wrap;
+    text-align: center;
 }
 
 nav button {
-    background: #222;
-    color: white;
+    background: #2a2a2a;
+    color: #fff;
     border: none;
     padding: 10px 15px;
     margin: 5px;
@@ -41,27 +40,36 @@ nav button {
 }
 
 nav button:hover {
-    background: #ff5f00;
+    background: #c43d00;
 }
 
 .container {
     padding: 20px;
+    text-align: center;
 }
 
 .product {
-    background: #1c1c1c;
+    background: #1f1f1f;
     padding: 15px;
     margin: 10px;
     border-radius: 8px;
     display: inline-block;
     width: 220px;
-    text-align: center;
-    box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 8px rgba(0,0,0,0.6);
+    transition: 0.3s;
+}
+
+.product:hover {
+    transform: translateY(-5px);
+}
+
+.product h3 {
+    margin: 5px 0;
 }
 
 .product button {
     margin-top: 10px;
-    background: #ff5f00;
+    background: #c43d00;
     border: none;
     padding: 8px;
     color: white;
@@ -69,34 +77,43 @@ nav button:hover {
     border-radius: 5px;
 }
 
-.cart {
+.cartButton {
     position: fixed;
-    right: 0;
-    top: 0;
-    background: #141414;
-    width: 300px;
-    height: 100%;
-    padding: 20px;
-    overflow-y: auto;
-    box-shadow: -5px 0 15px black;
+    bottom: 20px;
+    right: 20px;
+    background: #c43d00;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
 }
 
-.cart h2 {
+.cartPanel {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background: #1c1c1c;
+    padding: 15px;
+    width: 280px;
+    border-radius: 10px;
+}
+
+.cartPanel h3 {
     text-align: center;
 }
 
 .checkout button {
     width: 100%;
-    margin-top: 10px;
-    padding: 10px;
+    margin-top: 8px;
+    padding: 8px;
     border: none;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 5px;
 }
 
 .discord { background: #5865F2; color: white; }
 .whatsapp { background: #25D366; color: white; }
-.paypal { background: #0070ba; color: white; }
 
 footer {
     margin-top: 50px;
@@ -124,26 +141,28 @@ MINELITE NETWORK - TIENDA OFICIAL
 
 <div class="container" id="products"></div>
 
-<div class="cart">
-<h2>Carrito</h2>
+<div class="cartButton" onclick="toggleCart()">🛒</div>
+
+<div class="cartPanel" id="cartPanel">
+<h3>Carrito</h3>
 <ul id="cartList"></ul>
 <p><strong>Total: $<span id="total">0</span></strong></p>
 
 <div class="checkout">
-<button class="discord" onclick="checkoutDiscord()">Comprar por Discord</button>
-<button class="whatsapp" onclick="checkoutWhatsApp()">Comprar por WhatsApp</button>
-<button class="paypal" onclick="checkoutPayPal()">Pagar con PayPal</button>
+<button class="discord" onclick="checkoutDiscord()">Discord</button>
+<button class="whatsapp" onclick="checkoutWhatsApp()">WhatsApp</button>
 </div>
 </div>
 
 <footer>
-Precios especiales de lanzamiento. <br>
-Gracias por apoyar Minelite Network desde el inicio.
+Precios especiales de lanzamiento.<br>
+Gracias por apoyar Minelite Network.
 </footer>
 
 <script>
 
 const categories = {
+
 global: [
 ["VIP",1.19],["VIP+",1.69],["Cloud",2.29],["Star",2.89],
 ["Cosmo",4.49],["Galaxy",5.49],["Lite",7.49],
@@ -151,14 +170,14 @@ global: [
 ],
 
 redesbox: [
-["RB VIP",0.89],["RB VIP+",1.29],["RB Star",1.99],["RB Galaxy",3.49],
-["Kit Spotify",2.79],["Kit Discord",4.29],["Kit Google",6.49]
+["RB VIP",1.09],["RB VIP+",1.59],["RB Star",2.49],
+["RB Galaxy",4.99],
+["Kit Spotify",2.99],["Kit Discord",4.49],["Kit Google",6.99]
 ],
 
 keys: [
-["Key Común x1",0.39],["Key Común x3",0.99],["Key Común x5",1.69],
-["Key Legendaria x1",2.19],["Key Rangos x1",4.29],
-["Key Minelite x1",3.79],["Key 50/50 x1",4.49]
+["Key Común x1",0.39],["Key Común x3",0.99],
+["Key Épica x1",1.19],["Key Legendaria x1",2.19]
 ],
 
 extras: [
@@ -202,8 +221,13 @@ function updateCart(){
     document.getElementById("total").innerText=total.toFixed(2);
 }
 
+function toggleCart(){
+    const panel = document.getElementById("cartPanel");
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+
 function getOrderText(){
-    let text="Pedido Minelite Network:%0A";
+    let text="Pedido Minelite:%0A";
     cart.forEach(item=>{
         text+=`${item.name} - $${item.price}%0A`;
     });
@@ -217,10 +241,6 @@ function checkoutDiscord(){
 
 function checkoutWhatsApp(){
     window.open("https://wa.me/51986609862?text="+getOrderText());
-}
-
-function checkoutPayPal(){
-    window.open("https://www.paypal.com/paypalme/steve91999");
 }
 
 showCategory('global');
